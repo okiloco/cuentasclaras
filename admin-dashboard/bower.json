@@ -1,0 +1,17 @@
+{
+  "name": "CuentasClaras",
+  "authors": [
+    "Fabian Vargas"
+  ],
+  "description": "",
+  "main": "CuentasClaras",
+  "license": "MIT",
+  "homepage": "Cuentas Claras",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
