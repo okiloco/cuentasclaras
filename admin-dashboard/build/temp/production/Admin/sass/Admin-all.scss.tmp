@@ -43,6 +43,7 @@ $include-admin-model-faq-question: dynamic(true);;
 $include-admin-model-search-attachment: dynamic(true);;
 $include-admin-model-search-result: dynamic(true);;
 $include-admin-model-search-user: dynamic(true);;
+$include-admin-model-usuario-usuario: dynamic(true);;
 $include-admin-profile-phone: dynamic(true);;
 $include-admin-profile-tablet: dynamic(true);;
 $include-admin-proxy-api: dynamic(true);;
@@ -129,6 +130,9 @@ $include-admin-view-tablet-email-email: dynamic(true);;
 $include-admin-view-tablet-email-emailcontroller: dynamic(true);;
 $include-admin-view-tablet-email-inbox: dynamic(true);;
 $include-admin-view-tablet-search-users: dynamic(true);;
+$include-admin-view-usuario-usuario: dynamic(true);;
+$include-admin-view-usuario-usuariocontroller: dynamic(true);;
+$include-admin-view-usuario-usuariomodel: dynamic(true);;
 $include-admin-view-widgets-biotile: dynamic(true);;
 $include-admin-view-widgets-followmessage: dynamic(true);;
 $include-admin-view-widgets-socialbar: dynamic(true);;
@@ -824,6 +828,7 @@ $include-ext-util-paintmonitor-abstract: dynamic(true);;
 $include-ext-util-paintmonitor-cssanimation: dynamic(true);;
 $include-ext-util-paintmonitor-overflowchange: dynamic(false);;
 $include-ext-util-sizemonitor-abstract: dynamic(true);;
+$include-ext-util-sizemonitor-default: dynamic(false);;
 $include-ext-util-sizemonitor-overflowchange: dynamic(true);;
 $include-ext-util-sizemonitor-scroll: dynamic(true);;
 $include-ext-util-translatable-abstract: dynamic(true);;
@@ -894,6 +899,14 @@ $current-package: 'font-awesome';
 $current-resource-root: $font-awesome-resource-root;
 $relative-image-path-for-uis: $font-awesome-resource-path;
 @import '../../../../../ext/packages/font-awesome/sass/etc/all';
+
+/* including package font-ext */
+$font-ext-resource-root: 'font-ext' !default;
+$font-ext-resource-path: 'font-ext/images' !default;
+$current-package: 'font-ext';
+$current-resource-root: $font-ext-resource-root;
+$relative-image-path-for-uis: $font-ext-resource-path;
+@import '../../../../../ext/packages/font-ext/sass/etc/all';
 
 /* including package theme-triton */
 $theme-triton-resource-root: '' !default;
@@ -1097,10 +1110,12 @@ $relative-image-path-for-uis: $theme-base-resource-path;
 @import '../../../../../ext/modern/theme-base/sass/src/dataview/DataView';
 @import '../../../../../ext/modern/theme-base/sass/src/dataview/IndexBar';
 @import '../../../../../ext/modern/theme-base/sass/src/dataview/List';
+@import '../../../../../ext/modern/theme-base/sass/src/form/Panel';
 @import '../../../../../ext/modern/theme-base/sass/src/grid/HeaderContainer';
 @import '../../../../../ext/modern/theme-base/sass/src/grid/Grid';
 @import '../../../../../ext/modern/theme-base/sass/src/panel/Title';
 @import '../../../../../ext/modern/theme-base/sass/src/tab/Panel';
+@import '../../../../../ext/modern/theme-base/sass/src/chart/AbstractChart';
 
 /* including package theme-neptune */
 $theme-neptune-resource-root: '' !default;

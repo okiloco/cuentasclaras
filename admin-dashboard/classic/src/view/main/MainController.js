@@ -50,7 +50,7 @@ Ext.define('Admin.view.main.MainController', {
         }
 
         lastView = mainLayout.getActiveItem();
-        if (!existingItem) {
+        if (!existingItem && view!=true) {
             newView = Ext.create({
                 xtype: view,
                 routeId: hashTag,  // for existingItem search later

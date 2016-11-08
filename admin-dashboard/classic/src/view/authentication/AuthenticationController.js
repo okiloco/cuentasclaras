@@ -13,20 +13,19 @@ Ext.define('Admin.view.authentication.AuthenticationController', {
         window['adrum-start-time']= new Date().getTime();
         var form = self.up('form'),
         me=this;
-
         if (form.isValid()) {
-            /*form.submit({
+            form.submit({
                 url: constants.URL_LOGIN_APP,               
                 waitMsg: 'Procesando...',
                 success: function(form, action) {
                      var permisos = action.result.permisos;
-                     Ext.Array.each(permisos, function(record, index, countriesItSelf) {
+                    /*Ext.Array.each(permisos, function(record, index, countriesItSelf) {
                        window.localStorage.setItem(record.nombre_permiso, record.activo =='t');
-                    });
+                    });*/
                     window.localStorage.setItem('logIn', 1);
-                    window.localStorage.setItem('id_usuario', action.result.id_usuario);
-                    window.localStorage.setItem('tab_active', 0);
-                    me.redirectTo('cargarcsv', true);
+                    /*window.localStorage.setItem('id_usuario', action.result.id_usuario);
+                    window.localStorage.setItem('tab_active', 0);*/
+                    me.redirectTo('usuario', true);
                 },
                 failure: function(form, action) {
                     switch (action.failureType) {
@@ -37,13 +36,13 @@ Ext.define('Admin.view.authentication.AuthenticationController', {
                             Ext.Msg.alert('Falló', 'Comunicación Ajax falló');
                             break;
                         case Ext.form.action.Action.SERVER_INVALID:
-                           Ext.Msg.alert('Falló', action.result.msg);
+                           Ext.Msg.alert('Atención', action.result.msg);
                    }
                 }
                                    
-            });*/
-            window.localStorage.setItem('logIn', 1);
-            me.redirectTo('cargarcsv', true);
+            });
+            //window.localStorage.setItem('logIn', 1);
+            //me.redirectTo('cargarcsv', true);
             /*Ext.getBody().mask('Cargando estilos...');                 
            sessvars.backoffice = 0;
            location.reload();*/

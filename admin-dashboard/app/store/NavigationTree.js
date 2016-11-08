@@ -11,6 +11,14 @@ Ext.define('Admin.store.NavigationTree', {
         expanded: true,
         children: [
             {
+                text: 'Usuarios',
+                iconCls: 'x-fa fa-desktop',
+                rowCls: 'nav-tree-badge nav-tree-badge-new',
+                viewType: 'usuarioview',
+                routeId: 'usuario', // routeId defaults to viewType
+                leaf: true
+            }
+            /*{
                 text: 'Cargar',
                 iconCls: 'x-fa fa-desktop',
                 rowCls: 'nav-tree-badge nav-tree-badge-new',
@@ -115,7 +123,7 @@ Ext.define('Admin.store.NavigationTree', {
                 iconCls: 'x-fa fa-pie-chart',
                 viewType: 'charts',
                 leaf: true
-            }
+            }*/
         ]
     }
 });
