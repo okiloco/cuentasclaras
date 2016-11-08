@@ -42,7 +42,7 @@ class Usuario extends CI_Controller {
 			r.nombre rol
 		",false);
 		$this->db->from("usuario u");
-		$this->db->join("rol r","u.rol_id = r.id","inner");
+		$this->db->join("roles r","u.rol_id = r.id","inner");
 		$this->db->where("u.estado = 1 AND (u.primer_nombre LIKE '%$filtro%' OR u.segundo_nombre LIKE '%$filtro%' OR u.primer_apellido LIKE '%$filtro%' OR u.segundo_apellido LIKE '%$filtro%')",NULL,FALSE);
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
