@@ -79,6 +79,13 @@
     &.x-action-col-icon{
         font-size: 13px !important;
     }
+    &.x-action-hidden{
+        display:none;
+    }
+    &.fa-check{
+       background-color: $grid-item-check-btn-color;
+       color: $lightest-color; 
+    }
 }
 
 .overflow-ellipsis{

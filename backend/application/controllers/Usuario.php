@@ -31,19 +31,24 @@ class Usuario extends CI_Controller {
 		$this->db->select("SQL_CALC_FOUND_ROWS 
 			u.id,
 			u.username,
-			u.email,
+			IFNULL(u.email,'') email,
 			u.identificacion,
 			u.telefono,
 			u.celular,
 			u.direccion,
 			u.nombres,
+			u.estado,
 			IFNULL(u.apellidos,'') apellidos,
 			u.rol_id,
+			CASE WHEN  u.estado=1 THEN 'Activo'
+				WHEN u.username='' THEN 'Sin Usuario'
+				ELSE 'Bloqueado'
+			END estado_desc,  
 			r.nombre rol
 		",false);
 		$this->db->from("usuario u");
 		$this->db->join("roles r","u.rol_id = r.id","inner");
-		$this->db->where("u.estado = 1 AND (u.nombres LIKE '%$filtro%' OR u.apellidos LIKE '%$filtro%')",NULL,FALSE);
+		$this->db->where("(u.nombres LIKE '%$filtro%' OR u.apellidos LIKE '%$filtro%')",NULL,FALSE);
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
 
@@ -102,16 +107,17 @@ class Usuario extends CI_Controller {
 				'identificacion'=>$identificacion,
 				'telefono'=>$telefono,
 				'celular'=>$celular,
+				'estado'=>($username!='' && $password!='')?1:-1,
 				'rol_id'=>$rol_id
 			);
 			if(empty($id)){
 				$this->db->insert('usuario',$data);
 				$id = $this->db->insert_id();
-				$msg = "Persona Registrada Correctamente";
+				$msg = "Usuario Registrado Correctamente";
 			}else{
 				unset($data["password"]);
 				$this->db->update('usuario',$data,"id = $id");
-				$msg="Persona Actualizada Correctamente";
+				$msg="Usuario Actualizado Correctamente";
 			}
 			$success=true;
 		}
@@ -121,12 +127,23 @@ class Usuario extends CI_Controller {
 		    'msg' => $msg,
 		    'id' => $id
 		)); 
-
 	}
 
+	public function bloquearUsuario(){
+		$id = $this->input->post("id");
+		$estado=$this->input->post("estado");
+
+		$this->db->where("id = $id");
+		$this->db->update('usuario', array('estado' => ($estado*-1)));       
+		echo json_encode(array(
+		    'success' => true,
+		    'msg' => "Persona Bloqueada Correctamente"
+		)); 
+	}
 	public function eliminarUsuario(){
-		$id = $this->input->post("id");        
-		$this->db->update('usuario', array('estado' => -1), "id = $id");       
+		$id = $this->input->post("id");
+		$this->db->where("id = $id");        
+		$this->db->delete('usuario');       
 		echo json_encode(array(
 		    'success' => true,
 		    'msg' => "Persona Eliminada Correctamente"

@@ -16,6 +16,7 @@ Ext.define('Admin.model.usuario.Usuario', {
         'nombres',
         'apellidos',
         'rol_id',
-        'rol'
+        'rol',
+        'estado'
     ]
 });

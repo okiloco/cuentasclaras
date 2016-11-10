@@ -9,11 +9,12 @@ Ext.define('Admin.view.usuario.views.UsuarioForm', {
         labelWidth: 60,
         columnWidth:.5
     },
+    controller:'usuario-usuario',
+    url:constants.URL_GUARDAR_USUARIO,
 	initComponent: function() {
 		var me = this;
 
 		Ext.apply(me, {
-
 			items:[
 				{
 					xtype:'tabpanel',
@@ -26,57 +27,6 @@ Ext.define('Admin.view.usuario.views.UsuarioForm', {
 						}
 					},
 					items:[
-						{
-							title:'Usuario',
-							items:[
-								{
-									xtype:'panel',
-									flex:1,
-									defaults:{
-										columnWidth:.5
-									},
-									layout:'column',
-									defaults:{
-										margin:5,
-									},
-									items:[
-										{
-											xtype: 'textfield',
-											name: 'username',
-											emptyText: 'Usuario',
-											allowBlank:false
-										},
-										{
-											xtype: 'textfield',
-											name: 'password',
-											inputType: 'password',
-											emptyText: 'Contraseña',
-											allowBlank:false											
-										},
-										{
-											xtype: 'textfield',
-											name: 'email',
-											vtype: 'email',
-											emptyText: 'Correo'
-										},
-										{
-											xtype: 'listBox',
-											name: 'rol_id',
-											emptyText: 'Perfil',
-											allowBlank:false,
-											store: Ext.create('Admin.util.ux.Store', {
-											    fields: ['id', 'nombre'],
-											    autoLoad:true,
-											   	url:constants.URL_LISTAR_ROLES
-											}),
-											queryMode: 'local',
-										    displayField: 'nombre',
-										    valueField: 'id'
-										}
-									]
-								}
-							]
-						},
 						{
 							title:'Datos Personales',
 							items:[
@@ -126,6 +76,63 @@ Ext.define('Admin.view.usuario.views.UsuarioForm', {
 									]
 								}
 							]
+						},
+						{
+							title:'Usuario',
+							items:[
+								{
+									xtype:'panel',
+									flex:1,
+									defaults:{
+										columnWidth:.5
+									},
+									layout:'column',
+									defaults:{
+										margin:5,
+									},
+									items:[
+										{
+											xtype: 'hiddenfield',
+											name: 'id'
+										},
+										{
+											xtype: 'textfield',
+											name: 'username',
+											emptyText: 'Usuario',
+											allowBlank:(!((typeof(me.record)!="undefined") && (me.record.get("username")!='')))
+										},
+										{
+											xtype: 'textfield',
+											name: 'password',
+											inputType: 'password',
+											emptyText: 'Contraseña',
+											hidden:(typeof(me.record)!="undefined"),
+											// allowBlank:(typeof(me.record)!="undefined")											
+										},
+										{
+											xtype: 'textfield',
+											name: 'email',
+											vtype: 'email',
+											emptyText: 'Correo'
+										},
+										{
+											xtype: 'listBox',
+											name: 'rol_id',
+											emptyText: 'Perfil',
+											value:3,
+											allowBlank:false,
+											store: Ext.create('Admin.util.ux.Store', {
+											    fields: ['id', 'nombre'],
+											    autoLoad:true,
+											   	url:constants.URL_LISTAR_ROLES
+											}),
+											queryMode: 'local',
+										    displayField: 'nombre',
+										    valueField: 'id'
+										}
+									]
+								}
+							]
 						}
 					]
 				}
@@ -134,8 +141,9 @@ Ext.define('Admin.view.usuario.views.UsuarioForm', {
 				{
 					text: 'Guardar',
 					ui:'soft-green',
-					formBind: true, 
-			    	disabled: true
+					// formBind: true, 
+			    	// disabled: true,
+			    	handler:'onGuardar'
 				},
 				{
 					text: 'Cancelar',
@@ -144,9 +152,15 @@ Ext.define('Admin.view.usuario.views.UsuarioForm', {
 						self.up("window").close();
 					}
 				}
-			]
+			],
+			listeners:{
+				afterrender:function(self){
+					if(typeof(self.record)!="undefined"){
+						self.loadRecord(self.record);
+					}
+				}
+			}
 		});
-
 		me.callParent(arguments);
 	}
 });	

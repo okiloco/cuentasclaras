@@ -52,9 +52,10 @@
     "requires": [
         "charts",
         "font-awesome",
+         "ext-locale",
         "ux"
     ],
-
+    "locale": "es", 
     /**
      * Sass configuration properties.
      */
@@ -241,12 +242,18 @@
      *      }
      */
     "css": [{
-        // This entry uses an ant variable that is the calculated value of the generated
-        // output css file for the app, defined in .sencha/app/defaults.properties
-        "path": "${build.out.css.path}",
-        "bundle": true,
-        "exclude": ["fashion"]
-    }],
+            // This entry uses an ant variable that is the calculated value of the generated
+            // output css file for the app, defined in .sencha/app/defaults.properties
+            "path": "${build.out.css.path}",
+            "bundle": true,
+            "exclude": ["fashion"]
+        },
+        {
+            // This entry uses an ant variable that is the calculated value of the generated
+            // output css file for the app, defined in .sencha/app/defaults.properties
+            "path": "resources/css/customStyles.css"
+        }
+        ],
 
     /**
      * This option is used to configure the dynamic loader. At present these options

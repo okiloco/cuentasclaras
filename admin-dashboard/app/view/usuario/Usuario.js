@@ -37,28 +37,46 @@ Ext.define("Admin.view.usuario.Usuario",{
                     dataIndex:'rol'
                 },
                 {
+                    text:'Estado',
+                    dataIndex:'estado_desc'
+                },
+                {
                     xtype: 'actioncolumn',
                     items: [
                         {
                             xtype: 'button',
                             iconCls: 'x-fa fa-pencil',
-                            tooltip: 'Editar ',
-                            handler:'onEditar'
+                            tooltip: 'Editar Registro',
+                            handler:'onEditar',                       
                         },
                         {
                             xtype: 'button',
                             iconCls: 'x-fa fa-close',
-                            tooltip: 'Eliminar '
+                            tooltip: 'Eliminar Registro',
+                            handler:'onEliminar'
                         },
                         {
                             xtype: 'button',
                             iconCls: 'x-fa fa-ban',
-                            tooltip: 'Bloquear '
+                            // tooltip: 'Bloquear/Desbloquear Usuario',
+                            handler:'onBloquear',
+                            getClass:function(v,meta,record){
+                                console.log(record.get("username"))
+                                if(record.get("username")===''){
+                                    return 'x-action-hidden';
+                                }
+                                if(record.get("estado")==-1){
+                                    return 'x-fa fa-check';
+                                }else{
+                                    return 'x-fa fa-ban';
+                                }
+
+                            }
                         }
                     ],
 
                     cls: 'content-column',
-                    width: 40,
+                    width: 50,
                     dataIndex: 'bool',
                     text: 'Acciones',
                    
@@ -81,6 +99,14 @@ Ext.define("Admin.view.usuario.Usuario",{
                                 search:'filtrarUsuario',
                                 clear:'limpiarFiltro'
                             }
+                        },
+                        '->',
+                        {
+                            xtype: 'button',
+                            text: 'Registrar',
+                            name: 'registrar',
+                            ui:'soft-green',
+                            handler:'onRegistrar'
                         }
                     ]
                 }
