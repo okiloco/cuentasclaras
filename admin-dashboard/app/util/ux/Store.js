@@ -4,7 +4,7 @@ Ext.define('Admin.util.ux.Store', {
 	xtype:'uxstore',
 	constructor:function(config){
 	  var me = this;
-	  alert(config.url)
+	  // alert(config.url)
 	  if(typeof(config.url)!='undefined'){
 		  Ext.apply(config, {
 		         pageSize:(typeof(config.pageSize)!="undefined")?config.pageSize:5,

@@ -8,5 +8,6 @@ Ext.define('Admin.helpers.Constants', {
 	URL_LISTAR_USUARIOS:'service/Usuario/listarUsuarios',
 	URL_GUARDAR_USUARIO:'service/Usuario/guardarUsuarios',
 	URL_ELIMINAR_USUARIO:'service/Usuario/eliminarUsuarios',
+	URL_LISTAR_ROLES:'service/Usuario/listarRoles',
 
 });

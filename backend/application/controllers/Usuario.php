@@ -32,47 +32,52 @@ class Usuario extends CI_Controller {
 			u.id,
 			u.username,
 			u.email,
+			u.identificacion,
 			u.telefono,
+			u.celular,
 			u.direccion,
-			u.primer_nombre,
-			u.segundo_nombre,
-			u.primer_apellido,
-			u.segundo_apellido,
+			u.nombres,
+			IFNULL(u.apellidos,'') apellidos,
 			u.rol_id,
 			r.nombre rol
 		",false);
 		$this->db->from("usuario u");
 		$this->db->join("roles r","u.rol_id = r.id","inner");
-		$this->db->where("u.estado = 1 AND (u.primer_nombre LIKE '%$filtro%' OR u.segundo_nombre LIKE '%$filtro%' OR u.primer_apellido LIKE '%$filtro%' OR u.segundo_apellido LIKE '%$filtro%')",NULL,FALSE);
+		$this->db->where("u.estado = 1 AND (u.nombres LIKE '%$filtro%' OR u.apellidos LIKE '%$filtro%')",NULL,FALSE);
 		$this->db->limit($limit,$start);
 		$query = $this->db->get();
 
 		$usuarios = $query->result_array();
-
-		$cantidad=$this->db->query("SELECT FOUND_ROWS() as cantidad;", false);
+		$cantidad=$this->db->query("SELECT FOUND_ROWS() as total;", false);
         $cantidad=$cantidad->row_array();
 
         echo json_encode(array(
             'success' => true,
             'data' => $usuarios,
-            'total' => $cantidad["cantidad"],
+            'total' => $cantidad["total"],
         ));
 
 	}
 
+	public function listarRoles(){
+		$this->db->where("estado = 1");
+		$query=$this->db->get("roles");
+		echo json_encode(array(
+			'data'=>$query->result_array()
+		));
+	}
 	public function guardarUsuario(){
 		
 		$id = $this->input->post("id");
 		$password = $this->input->post("password");
         $username = trim($this->input->post("username"));
-		$primer_nombre = $this->input->post("primer_nombre");
-        $segundo_nombre = $this->input->post("segundo_nombre");
-        
-        $primer_apellido = $this->input->post("primer_apellido");
-        $segundo_apellido = $this->input->post("segundo_apellido");
+		$nombres = $this->input->post("nombres");
+        $apellidos = $this->input->post("apellidos");
+        $identificacion = $this->input->post("identificacion");
 
         $email = $this->input->post('email');
         $telefono = $this->input->post('telefono');
+        $celular = $this->input->post('celular');
         $direccion = $this->input->post('direccion');
 		$rol_id = $this->input->post("rol_id");
 
@@ -87,15 +92,16 @@ class Usuario extends CI_Controller {
 			 $msg="El usuario ya existe";
 		}else{
 			$data=array(
-				'password'=>md5($password),
 				'username'=>$username,
+				'password'=>md5($password),
 				'email'=>$email,
 				'telefono'=>$telefono,
 				'direccion'=>$direccion,
-				'primer_nombre'=>$primer_nombre,
-				'segundo_nombre'=>$segundo_nombre,
-				'primer_apellido'=>$primer_apellido,
-				'segundo_apellido'=>$segundo_apellido,
+				'nombres'=>$nombres,
+				'apellidos'=>$apellidos,
+				'identificacion'=>$identificacion,
+				'telefono'=>$telefono,
+				'celular'=>$celular,
 				'rol_id'=>$rol_id
 			);
 			if(empty($id)){

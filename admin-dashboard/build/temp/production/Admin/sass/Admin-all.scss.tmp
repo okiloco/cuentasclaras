@@ -133,6 +133,7 @@ $include-admin-view-tablet-search-users: dynamic(true);;
 $include-admin-view-usuario-usuario: dynamic(true);;
 $include-admin-view-usuario-usuariocontroller: dynamic(true);;
 $include-admin-view-usuario-usuariomodel: dynamic(true);;
+$include-admin-view-usuario-views-usuarioform: dynamic(true);;
 $include-admin-view-widgets-biotile: dynamic(true);;
 $include-admin-view-widgets-followmessage: dynamic(true);;
 $include-admin-view-widgets-socialbar: dynamic(true);;

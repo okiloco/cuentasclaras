@@ -1,2 +1,2 @@
 // @tag full-page
-// @require C:\wamp\www\dev\cuentasclaras\cuentasclaras\admin-dashboard\app.js
+// @require C:\wamp\www\dev\cuentasclaras\admin-dashboard\app.js

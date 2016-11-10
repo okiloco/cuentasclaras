@@ -19,13 +19,13 @@ Ext.define('Admin.util.com.searchButton', {
                     })
                 },
                 clear: {
-                   cls:"x-form-clear-trigger",
+                  cls:"x-form-clear-trigger",
                   tabIndex :2,
                    hidden:true,
-                   handler: function(self,el) {
-                   	   	el.setHidden(true);
-                   	   	self.setValue('');                           	   	
-                   }
+                   handler: (typeof(config.listeners.clear)!='undefined'?config.listeners.clear:function(self){
+                      el.setHidden(true);
+                      self.setValue('');    
+                    })
                }
             }
 		});
