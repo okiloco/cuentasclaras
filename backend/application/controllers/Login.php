@@ -36,7 +36,7 @@ class Login extends CI_Controller {
         $user = $this->session->userdata("usuario");
 
         $data = array(            
-            "clave" => md5($this->input->post("clave"))
+            "password" => md5($this->input->post("password"))
         );
         $this->db->update('usuario', $data, "id = $user[id]");
         echo json_encode(array(
@@ -59,16 +59,19 @@ class Login extends CI_Controller {
             $this->db->where($data);
             $rs = $this->db->get("usuario");
             $usuario = $rs->row_array();
-            unset($usuario["clave"]);
- 
+
+            unset($usuario["password"]);
+           
             $this->session->set_userdata(array(
-                "usuario" => $usuario
+                "usuario" => $usuario,
             ));
+
             echo json_encode(array(
+                "usuario" => $this->session->userdata("usuario"),
                 'success' => true
             ));
         } else {
-            unset($data["clave"]);
+            unset($data["password"]);
             $this->db->where($data);
             $rs = $this->db->get("usuario");
 

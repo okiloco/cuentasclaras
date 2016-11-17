@@ -91,8 +91,10 @@ Ext.define('Admin.view.main.Main', {
                 },*/
                 {
                     xtype: 'tbtext',
-                    text: 'Goff Smith',
-                    cls: 'top-user-name'
+                    bind:{
+                        text: "{username}",
+                    },
+                    cls: 'top-user-name',
                 },
                 {
                     xtype: 'image',
@@ -100,7 +102,12 @@ Ext.define('Admin.view.main.Main', {
                     height: 35,
                     width: 35,
                     alt:'current user image',
-                    src: 'resources/images/user-profile/2.png'
+                    src: 'resources/images/user-profile/2.png',
+                    listeners: {
+                        el: {
+                            click:'onClickUser'
+                        }
+                    }
                 }
             ]
         },

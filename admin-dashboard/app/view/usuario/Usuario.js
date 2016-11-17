@@ -61,7 +61,6 @@ Ext.define("Admin.view.usuario.Usuario",{
                             // tooltip: 'Bloquear/Desbloquear Usuario',
                             handler:'onBloquear',
                             getClass:function(v,meta,record){
-                                console.log(record.get("username"))
                                 if(record.get("username")===''){
                                     return 'x-action-hidden';
                                 }

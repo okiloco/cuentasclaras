@@ -3,6 +3,7 @@ Ext.define('Admin.helpers.Constants', {
 	singleton: true,
 
 	URL_LOGIN_APP:'service/Login/accesoUsuario',
+	URL_LOGOUT_APP:'service/Login/logout',
 
 	/*USUARIO*/
 	URL_LISTAR_USUARIOS:'service/Usuario/listarUsuarios',

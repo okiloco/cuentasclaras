@@ -33,6 +33,8 @@ Ext.define('Admin.view.main.MainController', {
             newView;
 
         if(view!='page404'){
+
+            console.log((window.localStorage.getItem('logIn')!=1),hashTag);
             //Muestras Login
            if(window.localStorage.getItem('logIn')!=1){
                if(hashTag=='login' || hashTag=='passwordreset'){
@@ -41,7 +43,14 @@ Ext.define('Admin.view.main.MainController', {
                     hashTag='login';
                     view=hashTag;
                     node=null;                    
-               }             
+               }    
+               console.log(view,hashTag);         
+           }else{
+              if(hashTag=='passwordreset'){  
+                  view=hashTag;
+               }else{
+                 hashTag=Admin.getApplication()._defaultToken;
+               }
            } 
        }       
         // Kill any previously routed window
@@ -197,5 +206,74 @@ Ext.define('Admin.view.main.MainController', {
 
     onEmailRouteChange: function () {
         this.setCurrentView('email');
+    },
+    onClickUser:function(self,el){
+        Ext.create('Ext.menu.Menu', {
+            width: 180,
+            margin: '10px 10px 10px 0px',
+            cls:'x-menu',
+            padding:'0',
+            bodyStyle:'border-radius:7px;',
+            frame:false,
+            plain:true,
+            defaults:{
+                pakcage:'center',
+                cls:'item-menu',
+                xtype:'menuitem'
+            },
+            items: [{
+                text: 'Mi Perfil',
+                iconCls:'fa fa-user',
+            },{
+                text: 'Cambiar Contraseña',
+                iconCls:'fa fa-key',
+                handler:'onChangePass'
+            },{
+                text: 'Salir',
+                iconCls:'fa fa-sign-out',
+                handler:'onLogout'
+            }]
+        }).showBy(Ext.get(el),'c-bl',[-20,55]);
+    },
+    onLogout:function(self){
+        var me=this;
+        Ext.Msg.confirm('Cerrar Sesión?', 'Desea cerrar la sesión?', function(buttonId, text, v) {
+            if(buttonId == 'yes') {
+                Ext.Ajax.request({
+                    scope: this,
+                    url: constants.URL_LOGOUT_APP,
+                    success: function(response) {
+                        var responseObject = Ext.decode(response.responseText);
+                        localStorage.clear();
+                        me.redirectTo('login', true);      
+                    },
+                    failure: function(response) {
+                        Ext.Msg.show({
+                            title: 'Error',
+                            msg: 'Error al procesar la petición.',
+                            buttons: Ext.Msg.OK,
+                            icon: Ext.Msg.ERROR
+                        });
+                    }
+                });
+            }
+        }, this);
+    },
+    onChangePass:function(self){
+        var me=this;
+        me.redirectTo('passwordreset',true);
+         // Ext.create('Admin.view.authentication.PasswordReset').show();
+        /*Ext.create('Ext.window.Window', {
+            title: 'Cambiar Contraseña',
+            height: 200,
+            width: 400,
+            layout: 'fit',
+            modal: true,
+            constrainHeader: true,
+            resizable: false,
+            items: [
+                Ext.create('Admin.view.authentication.PasswordReset')
+            ]
+        }).show();*/
     }
 });
