@@ -6,7 +6,55 @@
     <meta charset="UTF-8">
 
     <title>Admin Dashboard</title>
+    <style type="text/css">
+             /**
+             * Example of an initial loading indicator.
+             * It is recommended to keep this as minimal as possible to provide instant feedback
+             * while other resources are still being loaded for the first time
+             */
+            html, body {
+               height: 100%;
+               margin: 0px;
+               background-color: #18425A
+            }
 
+            #appLoadingIndicator {
+                position: absolute;
+                top: 50%;
+                margin-top: -15px;
+                text-align: center;
+                width: 100%;
+                height: 30px;
+                -webkit-animation-name: appLoadingIndicator;
+                -webkit-animation-duration: 0.5s;
+                -webkit-animation-iteration-count: infinite;
+                -webkit-animation-direction: linear;
+            }
+
+            #appLoadingIndicator > * {
+                background-color: #FFFFFF;
+                display: inline-block;
+                height: 30px;
+                -webkit-border-radius: 15px;
+                margin: 0 5px;
+                width: 30px;
+                opacity: 0.8;
+            }
+
+            @-webkit-keyframes appLoadingIndicator{
+                0% {
+                    opacity: 0.8
+                }
+                50% {
+                    opacity: 0
+                }
+                100% {
+                    opacity: 0.8
+                }
+            }
+            
+    </style>
+    
     <script type="text/javascript">
         var Ext = Ext || {}; // Ext namespace won't be defined yet...
 
@@ -101,5 +149,11 @@ b.cache()}c.notifyUpdateReady()},notifyUpdateReady:function(){if("checking"!==c.
 1);"/"==e?b.substring(2,d+2)!==a&&(c=!1):"f"==e?b.substring(10,d+10)!==a&&(c=!1):"."==e&&b.substring(1,d+1)!==a&&(c=!1);return c},parseResult:function(b){var a={};(b.exception||0===b.status)&&!e.env.phantom?a.error=!0:200<=b.status&&300>b.status||304===b.status||e.env.phantom||0===b.status&&0<b.content.length?a.content=b.content:a.error=!0;return a}};return c}();Ext.manifest=Ext.manifest||"bootstrap";Ext.Microloader.run();</script>
 
 </head>
-<body></body>
+<body>
+    <div id="appLoadingIndicator">
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+</body>
 </html>

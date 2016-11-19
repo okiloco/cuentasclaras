@@ -149,6 +149,93 @@ class Usuario extends CI_Controller {
 		    'msg' => "Persona Eliminada Correctamente"
 		)); 
 	}
+
+	public function actualizarPerfil(){
+
+		/*
+			'nombres',
+			'apellidos',
+			'identificacion',
+			'telefono',
+			'celular',
+			'direccion',
+			'id',
+			'imagen'
+		*/
+		$id = $this->input->post("id");
+		$nombres = $this->input->post("nombres");
+        $apellidos = $this->input->post("apellidos");
+        $identificacion = $this->input->post("identificacion");
+
+        $email = $this->input->post('email');
+        $telefono = $this->input->post('telefono');
+        $celular = $this->input->post('celular');
+        $direccion = $this->input->post('direccion');
+		$imagen = $this->input->post("imagen");
+
+		$this->db->where('id',$id);
+        $this->db->where('estado',1);
+		$rs = $this->db->get("usuario");
+
+		if($rs->num_rows()===1){
+
+			$data=array(
+				'email'=>$email,
+				'telefono'=>$telefono,
+				'direccion'=>$direccion,
+				'nombres'=>$nombres,
+				'apellidos'=>$apellidos,
+				'identificacion'=>$identificacion,
+				'telefono'=>$telefono,
+				'celular'=>$celular,
+				'imagen'=>$imagen
+			);
+			$this->db->where("id",$id);
+			$this->db->update('usuario',$data);
+
+			/**/
+
+
+			$this->db->select("
+				u.id,
+				u.username,
+				u.email,
+				u.identificacion,
+				u.telefono,
+				u.celular,
+				u.direccion,
+				u.nombres,
+				u.estado,
+				u.apellidos,
+				u.rol_id,
+				r.nombre rol
+			",false);
+			$this->db->from("usuario u");
+			$this->db->join("roles r","u.rol_id = r.id","inner");
+			$this->db->where('u.id',$id);
+	        $this->db->where('u.estado',1);
+			$rs = $this->db->get();
+
+			$usuario = $rs->row_array();
+
+            unset($usuario["password"]);
+
+            $this->session->set_userdata(array(
+                "usuario" => $usuario,
+            ));
+
+			$success=true;
+			$msg="Usuario Actualizado Correctamente";
+		}else{
+			$success=false;
+			$msg="Usuario no existe";
+		}
+		echo json_encode(array(
+		    'success' => $success,
+		    'msg' => $msg,
+		    'usuario'=>$usuario
+		)); 
+	}
 }
 
 /* End of file welcome.php */

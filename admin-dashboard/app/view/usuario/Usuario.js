@@ -20,6 +20,7 @@ Ext.define("Admin.view.usuario.Usuario",{
         {
             xtype:'grilla',
             cls: 'user-grid',
+            reference:'ref_grid_usuarios',
             flex:1,
             forceFit:true,
             layout:'fit',

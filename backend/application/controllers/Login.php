@@ -56,8 +56,29 @@ class Login extends CI_Controller {
         
         if ($rs->num_rows() === 1) {
 
+            $data = array(
+                "u.username" => $this->input->post("username"),
+                "u.password" => md5($this->input->post("password")),
+                "u.estado" => 1
+            );
+            $this->db->select("u.id,
+            u.username,
+            u.email,
+            u.identificacion,
+            u.telefono,
+            u.celular,
+            u.direccion,
+            u.nombres,
+            u.estado,
+            u.apellidos,
+            u.imagen,
+            u.rol_id,
+            r.nombre rol");
+            $this->db->from("usuario u");
+            $this->db->join("roles r","u.rol_id=r.id","inner");
             $this->db->where($data);
-            $rs = $this->db->get("usuario");
+
+            $rs = $this->db->get();
             $usuario = $rs->row_array();
 
             unset($usuario["password"]);

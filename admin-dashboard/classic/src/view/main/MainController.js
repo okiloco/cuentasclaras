@@ -34,7 +34,6 @@ Ext.define('Admin.view.main.MainController', {
 
         if(view!='page404'){
 
-            console.log((window.localStorage.getItem('logIn')!=1),hashTag);
             //Muestras Login
            if(window.localStorage.getItem('logIn')!=1){
                if(hashTag=='login' || hashTag=='passwordreset'){
@@ -44,8 +43,8 @@ Ext.define('Admin.view.main.MainController', {
                     view=hashTag;
                     node=null;                    
                }    
-               console.log(view,hashTag);         
            }else{
+                /*Si ya está logueado y se desea resetear el password*/
               if(hashTag=='passwordreset'){  
                   view=hashTag;
                }else{
@@ -163,8 +162,10 @@ Ext.define('Admin.view.main.MainController', {
     },
 
     onMainViewRender:function() {
+        Ext.fly("appLoadingIndicator").destroy();
         if (!window.location.hash) {
             console.log('Loaded!');
+
             /*if(window.localStorage.getItem('logIn')!=1){
              //Muestras Login
                this.redirectTo("login");
@@ -175,6 +176,7 @@ Ext.define('Admin.view.main.MainController', {
             }*/
            
         }
+
     },
 
     onRouteChange:function(id){
@@ -208,8 +210,12 @@ Ext.define('Admin.view.main.MainController', {
         this.setCurrentView('email');
     },
     onClickUser:function(self,el){
+        var mainCardPanel=this.lookupReference('mainCardPanel'),
+        usuarioview=mainCardPanel.down("usuarioview"),
+        gridUsuarios=usuarioview.down("grid");
+
         Ext.create('Ext.menu.Menu', {
-            width: 180,
+            width: 200,
             margin: '10px 10px 10px 0px',
             cls:'x-menu',
             padding:'0',
@@ -221,10 +227,17 @@ Ext.define('Admin.view.main.MainController', {
                 cls:'item-menu',
                 xtype:'menuitem'
             },
-            items: [{
+            items: [
+            /*{
                 text: 'Mi Perfil',
                 iconCls:'fa fa-user',
-            },{
+                selector:el,
+                handler:'onProfile'
+            },*/
+            Ext.create('Admin.view.profile.Social',{
+                autoScroll:true
+            }),
+            {
                 text: 'Cambiar Contraseña',
                 iconCls:'fa fa-key',
                 handler:'onChangePass'
@@ -233,7 +246,7 @@ Ext.define('Admin.view.main.MainController', {
                 iconCls:'fa fa-sign-out',
                 handler:'onLogout'
             }]
-        }).showBy(Ext.get(el),'c-bl',[-20,55]);
+        }).showBy(Ext.get(el),'c-bl',[-40,140]);
     },
     onLogout:function(self){
         var me=this;
@@ -275,5 +288,78 @@ Ext.define('Admin.view.main.MainController', {
                 Ext.create('Admin.view.authentication.PasswordReset')
             ]
         }).show();*/
+    },
+    onProfile:function(self){
+
+        Ext.create('Ext.menu.Menu', {
+            width: 250,
+            margin: '10px 10px 10px 0px',
+            cls:'x-menu',
+            padding:'0',
+            bodyStyle:'border-radius:7px;',
+            frame:false,
+            plain:true,
+            defaults:{
+                pakcage:'center',
+                cls:'item-menu',
+                xtype:'menuitem'
+            },
+            items: [
+                Ext.create('Admin.view.profile.Social',{
+                    autoScroll:true
+                }) 
+            ]
+        }).showBy(Ext.get(self.selector),'c-bl',[-70,0]);
+    },
+    onViewPerfil:function(self){
+        var mainCardPanel=this.lookupReference('mainCardPanel'),
+        usuarioview=mainCardPanel.down("usuarioview"),
+        grid=usuarioview.down("grid");
+
+        Ext.create('Ext.window.Window', {
+            title: 'Editar Perfil',
+            width: 550,
+            layout: 'fit',
+            modal: true,
+            constrainHeader: true,
+            resizable: false,
+            items: [
+                Ext.create('Admin.view.usuario.Perfil',{
+                    grid:grid
+                })
+            ]
+        }).show();
+    },
+    onRender:function(self){
+        var record=JSON.parse(localStorage.getItem('usuario')),
+        Perfil=Ext.create('Admin.model.usuario.Perfil',record);
+        self.loadRecord(Perfil);
+    },
+    onGuardar:function(self){
+        var form=self.up("form");
+        var mainCardPanel=this.lookupReference('mainCardPanel'),
+        usuarioview=mainCardPanel.down("usuarioview"),
+        gridUsuarios=usuarioview.down("grid");
+
+        form.getForm().submit({
+            scope: this, 
+            submitEmptyText: false,
+            url: constants.URL_ACTUALIZAR_PERFIL,
+            success: function(f, action) {
+                var usuario = action.result.usuario;
+                window.localStorage.setItem('usuario', JSON.stringify(usuario));
+                this.getViewModel().set('nombre',Ext.String.ellipsis(usuario.nombres+' '+usuario.apellidos,20));
+                form.grid.getStore().reload();
+                self.up("window").close();
+            },
+            failure: function(f, action) {
+                Ext.Msg.show({
+                    title: 'Error',
+                    msg: 'Error en la transacción',
+                    buttons: Ext.Msg.OK,
+                    icon: Ext.Msg.ERROR                    
+                });
+            }
+        });
     }
 });

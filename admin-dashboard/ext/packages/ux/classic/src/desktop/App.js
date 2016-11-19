@@ -13,6 +13,8 @@ Ext.define('Ext.ux.desktop.App', {
     requires: [
         'Ext.container.Viewport',
         'Ext.layout.container.Column', 
+        'Ext.layout.container.Border',
+        'Ext.form.field.File',
         'Ext.ux.desktop.Desktop'
     ],
 

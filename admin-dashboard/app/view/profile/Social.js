@@ -11,32 +11,39 @@ Ext.define('Admin.view.profile.Social', {
         type: 'vbox',
         align: 'middle'
     },
-
-    height: 320,
+    /*viewModel: {
+        type:'main'
+    },*/
+    // height: 320,
     
-    bodyPadding: 20,
+    bodyPadding: 5,
     
     items: [
         {
             xtype: 'image',
-            cls: 'userProfilePic',
+            // cls: 'userProfilePic',
             height: 120,
             width: 120,
             alt: 'profile-picture',
-            src: 'resources/images/user-profile/20.png'
+            cls: 'header-right-profile-image',
+            src: 'resources/images/user-profile/2.png'
         },
         {
             xtype: 'component',
             cls: 'userProfileName',
             height: '',
-            html: 'Jessica Warren'
+            bind:{
+                html: '{nombre}'
+            }
         },
         {
             xtype: 'component',
             cls: 'userProfileDesc',
-            html: 'CO-FOUNDER, CEO'
+            bind:{
+                html: '{rol}'
+            }
         },
-        {
+       /* {
             xtype: 'container',
             layout: 'hbox',
             defaults: {
@@ -62,19 +69,21 @@ Ext.define('Admin.view.profile.Social', {
                     iconCls: 'x-fa fa-envelope'
                 }
             ]
-        },
+        },*/
         {
             xtype: 'button',
-            width: 220,
-            text: 'Follow',
+            width: 120,
+            text: 'Ver perfil',
+            ui:'soft-cyan',
             platformConfig: {
                 classic: {
-                    scale: 'large'
+                    scale: 'small'
                 },
                 modern: {
-                    ui: 'action'
+                    ui: 'soft-cyan'
                 }
-            }
+            },
+            handler:'onViewPerfil'
         }
     ]
 });

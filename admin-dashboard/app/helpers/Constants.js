@@ -11,5 +11,6 @@ Ext.define('Admin.helpers.Constants', {
 	URL_ELIMINAR_USUARIO:'service/Usuario/eliminarUsuario',
 	URL_BLOQUEAR_USUARIO:'service/Usuario/bloquearUsuario',
 	URL_LISTAR_ROLES:'service/Usuario/listarRoles',
+	URL_ACTUALIZAR_PERFIL:'service/Usuario/actualizarPerfil',
 
 });
