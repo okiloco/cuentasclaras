@@ -723,7 +723,7 @@ class CI_Upload {
 			$this->set_error('upload_not_writable');
 			return FALSE;
 		}
-
+		
 		$this->upload_path = preg_replace("/(.+?)\/*$/", "\\1/",  $this->upload_path);
 		return TRUE;
 	}

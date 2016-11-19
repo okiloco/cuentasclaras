@@ -173,6 +173,8 @@ class Usuario extends CI_Controller {
         $direccion = $this->input->post('direccion');
 		$imagen = $this->input->post("imagen");
 
+		$filename=$_FILES['imagen']['name'];
+
 		$this->db->where('id',$id);
         $this->db->where('estado',1);
 		$rs = $this->db->get("usuario");
@@ -194,8 +196,6 @@ class Usuario extends CI_Controller {
 			$this->db->update('usuario',$data);
 
 			/**/
-
-
 			$this->db->select("
 				u.id,
 				u.username,
@@ -217,15 +217,36 @@ class Usuario extends CI_Controller {
 			$rs = $this->db->get();
 
 			$usuario = $rs->row_array();
-
             unset($usuario["password"]);
-
             $this->session->set_userdata(array(
                 "usuario" => $usuario,
             ));
 
-			$success=true;
-			$msg="Usuario Actualizado Correctamente";
+           	$config['upload_path']='./uploads/';
+           	$config['allowed_types']='.|gif|jpg|png';
+           	$config['max_size']=100;
+           	$config['max_width']=120;
+           	$config['max_height']=120;
+           	$config['overwrite']=true;
+
+           	$new_name = $usuario['username']."_img";
+           	$config['file_name'] = $new_name;
+           	$this->load->library('upload',$config);
+           	
+        	$success=true;
+        	$msg="Ok";
+           	$data=array();
+           	
+           	echo "/*".$filename."*/";
+
+           	if(!$this->upload->do_upload('imagen')){
+           		$msg=array('error'=>$this->upload->display_errors());
+           		$success=false;
+           	}else{
+           		$data=array('upload_data'=>$this->upload->data());
+           	}
+
+
 		}else{
 			$success=false;
 			$msg="Usuario no existe";
@@ -235,6 +256,28 @@ class Usuario extends CI_Controller {
 		    'msg' => $msg,
 		    'usuario'=>$usuario
 		)); 
+	}
+
+	public function subirFotoPerfil($imagen){
+
+		$imagen = $this->input->post("imagen");
+		$config['upload_path']='./uploads/';
+		$config['allowed_types']='.|gif|jpg|png';
+		$config['max_size']=100;
+		$config['max_width']=120;
+		$config['max_height']=120;
+
+		$this->load->library('upload',$config);
+		$upload_data = $this->upload->data();
+	 	$file_name = $upload_data['file_name'];
+		$data=array();
+		if(!$this->upload->do_upload($file_name)){
+			$msg=array('error'=>$this->upload->display_errors());
+		}else{
+			$data=array('upload_data'=>$this->upload->data());
+			echo "/*".$data."*/";
+		}
+		return $data;
 	}
 }
 

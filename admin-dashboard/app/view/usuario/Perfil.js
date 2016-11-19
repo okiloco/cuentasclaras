@@ -58,6 +58,7 @@ Ext.define('Admin.view.usuario.Perfil',{
                        },
                        {
                            xtype: 'filefield',
+                           name:'imagen',
                            width: 120,
                            hideLabel: true,
                            buttonOnly: true, 
