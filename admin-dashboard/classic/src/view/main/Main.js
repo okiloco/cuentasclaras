@@ -59,7 +59,9 @@ Ext.define('Admin.view.main.Main', {
                     height: 35,
                     width: 35,
                     alt:'current user image',
-                    src: 'resources/images/user-profile/2.png',
+                    bind:{
+                        src: '{imagen}',
+                    },
                     listeners: {
                         scope:this,
                         el: {

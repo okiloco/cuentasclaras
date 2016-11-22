@@ -31,17 +31,23 @@ Ext.define('Admin.view.usuario.Perfil',{
                         align: 'middle'
                     },
                     bodyPadding: '20px 5px',
+                    cls:'userProfile-container',
                     items: [
                        {
                            xtype: 'image',
-                           // cls: 'userProfilePic',
+                           cls: 'userProfilePic',
                            height: 120,
                            width: 120,
                            alt: 'profile-picture',
-                           cls: 'header-right-profile-image',
-                           src: 'resources/images/user-profile/2.png'
+                           // cls: 'header-right-profile-image',
+                           bind:{
+                               src: '{imagen}',
+                               alt:'{nombre}'
+                           },
+                           margin: '30 0 0 10'
+                           // src: 'resources/images/user-profile/2.png'
                        },
-                       {
+                       /*{
                            xtype: 'component',
                            cls: 'userProfileName',
                            height: '',
@@ -55,6 +61,14 @@ Ext.define('Admin.view.usuario.Perfil',{
                            bind:{
                                html: '{rol}'
                            }
+                       },*/
+                       {
+                         xtype: 'label',
+                         text: 'Resolución: (128x128)',
+                         style:{
+                          fontSize:7
+                         },
+                         margin: '0 0 5 10'
                        },
                        {
                            xtype: 'filefield',
@@ -63,6 +77,9 @@ Ext.define('Admin.view.usuario.Perfil',{
                            hideLabel: true,
                            buttonOnly: true, 
                            buttonText: 'Subir foto perfil',
+                           msgTarget: 'side',
+                           regex: new RegExp("\\.(gif|png|jpg|gif|jpeg)$", "i"),
+                           regexText: 'El archivo debe ser en formato gif|png|jpg|gif|jpeg.',
                            ui:'soft-cyan',
                            platformConfig: {
                                classic: {
@@ -73,7 +90,8 @@ Ext.define('Admin.view.usuario.Perfil',{
                                }
                            },
                            handler:'onViewPerfil'
-                       }
+                       },
+                       
                     ]
                 },
                 {

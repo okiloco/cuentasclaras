@@ -349,13 +349,16 @@ Ext.define('Admin.view.main.MainController', {
                 var usuario = action.result.usuario;
                 window.localStorage.setItem('usuario', JSON.stringify(usuario));
                 this.getViewModel().set('nombre',Ext.String.ellipsis(usuario.nombres+' '+usuario.apellidos,20));
+                this.getViewModel().set('imagen',usuario.imagen);
+                
                 form.grid.getStore().reload();
                 self.up("window").close();
             },
             failure: function(f, action) {
+                var result = action.result;
                 Ext.Msg.show({
                     title: 'Error',
-                    msg: 'Error en la transacción',
+                    msg: result.msg,
                     buttons: Ext.Msg.OK,
                     icon: Ext.Msg.ERROR                    
                 });

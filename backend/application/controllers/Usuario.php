@@ -107,10 +107,10 @@ class Usuario extends CI_Controller {
 				'identificacion'=>$identificacion,
 				'telefono'=>$telefono,
 				'celular'=>$celular,
-				'estado'=>($username!='' && $password!='')?1:-1,
+				//'estado'=>($id && !$username && !$password)?-1:1,
 				'rol_id'=>$rol_id
 			);
-			if(empty($id)){
+			if(!$id){
 				$this->db->insert('usuario',$data);
 				$id = $this->db->insert_id();
 				$msg = "Usuario Registrado Correctamente";
@@ -180,22 +180,49 @@ class Usuario extends CI_Controller {
 		$rs = $this->db->get("usuario");
 
 		if($rs->num_rows()===1){
+	    	
+	    	$success=true;
+	    	$msg="Ok";
+	    	$data=array(
+	    		'email'=>$email,
+	    		'telefono'=>$telefono,
+	    		'direccion'=>$direccion,
+	    		'nombres'=>$nombres,
+	    		'apellidos'=>$apellidos,
+	    		'identificacion'=>$identificacion,
+	    		'telefono'=>$telefono,
+	    		'celular'=>$celular,
+	    		'imagen'=>$imagen
+	    	);
 
-			$data=array(
-				'email'=>$email,
-				'telefono'=>$telefono,
-				'direccion'=>$direccion,
-				'nombres'=>$nombres,
-				'apellidos'=>$apellidos,
-				'identificacion'=>$identificacion,
-				'telefono'=>$telefono,
-				'celular'=>$celular,
-				'imagen'=>$imagen
-			);
+	    	/*Subir Foto de Perfil*/
+	    	if(!empty($_FILES['imagen']['name'])){
+		    	$config['upload_path']='./uploads/';
+		    	$config['allowed_types']='*';
+		    	$config['max_size']=3000;
+		    	$config['max_width']=128;
+		    	$config['max_height']=128;
+		    	$config['overwrite']=true;
+
+		    	$usuario=$this->session->userdata("usuario");
+		    	$new_name = $usuario['username']."_img";
+		    	$config['file_name'] = $new_name;
+		    	$this->load->library('upload',$config);
+		    	
+		    	if(!$this->upload->do_upload('imagen')){
+		    		$msg=$this->upload->display_errors();
+		    		$success=false;
+		    	}else{
+		    		$res=$this->upload->data();
+		    		$data['imagen']=$config['upload_path'].''.$res['file_name'];
+		    	}
+		    }else{
+		    	unset($data['imagen']);
+		    }
+
+			/*Actualizar Persona*/
 			$this->db->where("id",$id);
 			$this->db->update('usuario',$data);
-
-			/**/
 			$this->db->select("
 				u.id,
 				u.username,
@@ -208,6 +235,7 @@ class Usuario extends CI_Controller {
 				u.estado,
 				u.apellidos,
 				u.rol_id,
+				u.imagen,
 				r.nombre rol
 			",false);
 			$this->db->from("usuario u");
@@ -221,31 +249,6 @@ class Usuario extends CI_Controller {
             $this->session->set_userdata(array(
                 "usuario" => $usuario,
             ));
-
-           	$config['upload_path']='./uploads/';
-           	$config['allowed_types']='.|gif|jpg|png';
-           	$config['max_size']=100;
-           	$config['max_width']=120;
-           	$config['max_height']=120;
-           	$config['overwrite']=true;
-
-           	$new_name = $usuario['username']."_img";
-           	$config['file_name'] = $new_name;
-           	$this->load->library('upload',$config);
-           	
-        	$success=true;
-        	$msg="Ok";
-           	$data=array();
-           	
-           	echo "/*".$filename."*/";
-
-           	if(!$this->upload->do_upload('imagen')){
-           		$msg=array('error'=>$this->upload->display_errors());
-           		$success=false;
-           	}else{
-           		$data=array('upload_data'=>$this->upload->data());
-           	}
-
 
 		}else{
 			$success=false;
@@ -275,9 +278,17 @@ class Usuario extends CI_Controller {
 			$msg=array('error'=>$this->upload->display_errors());
 		}else{
 			$data=array('upload_data'=>$this->upload->data());
-			echo "/*".$data."*/";
 		}
 		return $data;
+	}
+
+	public function test(){
+		$id='';
+		if(!$id){
+			echo "Vacio!";
+		}else{
+			echo "Hay Id";
+		}
 	}
 }
 

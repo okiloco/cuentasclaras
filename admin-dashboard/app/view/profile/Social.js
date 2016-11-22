@@ -17,16 +17,19 @@ Ext.define('Admin.view.profile.Social', {
     // height: 320,
     
     bodyPadding: 5,
-    
+    cls:'userProfile-container',
     items: [
         {
             xtype: 'image',
-            // cls: 'userProfilePic',
+            cls: 'userProfilePic',
             height: 120,
             width: 120,
             alt: 'profile-picture',
-            cls: 'header-right-profile-image',
-            src: 'resources/images/user-profile/2.png'
+            // cls: 'header-right-profile-image',
+            bind:{
+                src: '{imagen}',
+            },
+            // src: 'resources/images/user-profile/2.png'
         },
         {
             xtype: 'component',
