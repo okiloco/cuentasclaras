@@ -68,10 +68,7 @@ class Login extends CI_Controller {
             u.telefono,
             u.celular,
             u.direccion,
-            u.nombres,
             u.estado,
-            u.apellidos,
-            u.imagen,
             u.rol_id,
             r.nombre rol");
             $this->db->from("usuario u");
