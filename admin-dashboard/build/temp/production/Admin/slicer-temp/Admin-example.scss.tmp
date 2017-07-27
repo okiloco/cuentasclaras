@@ -54,6 +54,7 @@ $include-admin-store-email-inbox: dynamic(true);;
 $include-admin-store-faq-faq: dynamic(true);;
 $include-admin-store-search-results: dynamic(true);;
 $include-admin-store-search-users: dynamic(true);;
+$include-admin-util-models: dynamic(true);;
 $include-admin-util-com-combo: dynamic(true);;
 $include-admin-util-com-grilla: dynamic(true);;
 $include-admin-util-com-searchbutton: dynamic(true);;
@@ -1290,6 +1291,7 @@ $include-ext-view-view: dynamic(true);;
 $include-ext-window-messagebox: dynamic(true);;
 $include-ext-window-toast: dynamic(true);;
 $include-ext-window-window: dynamic(true);;
+$include-models: dynamic(true);;
 $include-tecnotasks-grilla: dynamic(true);;
 $include-constants: dynamic(true);;
 
